@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gaiad-genesis
+spec:
+  serviceName: gaiad-genesis
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: gaiad
+      app.kubernetes.io/name: gaiad-genesis
+  template:
+    metadata:
+      annotations:
+        quality: release
+        role: api-gateway
+        sla: high
+        tier: gateway
+      labels:
+        app.kubernetes.io/instance: gaiad
+        app.kubernetes.io/type: gaiad-validator
+        app.kubernetes.io/name: gaiad-genesis
+        app.kubernetes.io/version: '0.1'
+    spec:
+      initContainers:
+        - name: init-genesis
+          image: persistenceone/gaiad:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: "100M"
+            requests:
+              cpu: "0.1"
+              memory: "100M"
+      containers:
+        - name: validator
+          image: persistenceone/gaiad:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "1G"
+            requests:
+              cpu: "0.1"
+              memory: "500M"
+        - name: exposer-app
+          image: persistenceone/exposer:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: "100M"
+            requests:
+              cpu: "0.1"
+              memory: "100M"

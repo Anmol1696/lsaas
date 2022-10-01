@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: osmosisd-genesis
+spec:
+  serviceName: osmosisd-genesis
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: osmosisd
+      app.kubernetes.io/name: osmosisd-genesis
+  template:
+    metadata:
+      annotations:
+        quality: release
+        role: api-gateway
+        sla: high
+        tier: gateway
+      labels:
+        app.kubernetes.io/instance: osmosisd
+        app.kubernetes.io/type: osmosisd-validator
+        app.kubernetes.io/name: osmosisd-genesis
+        app.kubernetes.io/version: '0.1'
+    spec:
+      initContainers:
+        - name: init-genesis
+          image: persistenceone/osmosisd:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: "100M"
+            requests:
+              cpu: "0.1"
+              memory: "100M"
+      containers:
+        - name: validator
+          image: persistenceone/osmosisd:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "1G"
+            requests:
+              cpu: "0.1"
+              memory: "500M"
+        - name: exposer-app
+          image: persistenceone/exposer:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: "100M"
+            requests:
+              cpu: "0.1"
+              memory: "100M"
