@@ -58,7 +58,7 @@ spec:
     spec:
       initContainers:
         - name: init-genesis
-          image: persistenceone/persistencecore:latest
+          image: persistenceone/persistencecore:hackwasm
           imagePullPolicy: Always
           env:
             - name: COINS
@@ -88,6 +88,13 @@ spec:
               do
                 jq -r ".validators[$i].mnemonic" /configs/validators.json | persistenceCore keys add $(jq -r ".validators[$i].name" /configs/validators.json) --recover --keyring-backend='test' --home $HOME_DIR
                 persistenceCore add-genesis-account $(jq -r .validators[$i].address /configs/validators.json) $COINS --keyring-backend='test' --home $HOME_DIR
+              done
+              
+              # Give test addresses initial coins
+              for ((i=0; i<$(jq -r '.keys | length' /configs/keys.json); i++))
+              do
+                jq -r ".keys[$i].mnemonic" /configs/keys.json | $CHAIN_BIN keys add $(jq -r ".keys[$i].name" /configs/keys.json) --recover --keyring-backend='test' --home $HOME_DIR
+                $CHAIN_BIN add-genesis-account $(jq -r .keys[$i].address /configs/keys.json) $COINS --keyring-backend='test' --home $HOME_DIR
               done
               
               persistenceCore gentx $(jq -r ".genesis[0].name" /configs/validators.json) 5000000000uxprt --keyring-backend="test" --chain-id $CHAIN_ID --home $HOME_DIR
@@ -147,7 +154,7 @@ spec:
               name: addresses
       containers:
         - name: validator
-          image: persistenceone/persistencecore:latest
+          image: persistenceone/persistencecore:hackwasm
           imagePullPolicy: Always
           env:
             - name: CHAIN_ID

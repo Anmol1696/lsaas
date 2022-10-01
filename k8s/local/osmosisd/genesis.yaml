@@ -5,7 +5,7 @@ metadata:
 spec:
   serviceName: osmosisd-genesis
   replicas: 1
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: osmosisd
@@ -25,7 +25,7 @@ spec:
     spec:
       initContainers:
         - name: init-genesis
-          image: persistenceone/osmosisd:latest
+          image: persistenceone/wasmd:hackwasm
           imagePullPolicy: Always
           resources:
             limits:
@@ -36,7 +36,7 @@ spec:
               memory: "100M"
       containers:
         - name: validator
-          image: persistenceone/osmosisd:latest
+          image: persistenceone/wasmd:hackwasm
           imagePullPolicy: Always
           resources:
             limits:

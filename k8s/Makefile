@@ -1,5 +1,5 @@
-PROCESS=persistencecore
-CLUSTER=local
+PROCESS=rly-persistencecore-osmosisd
+CLUSTER=devnet
 
 SHELL := /bin/bash
 
@@ -56,5 +56,15 @@ clean: clean-kind
 apply:
 	kubectl apply -k $(CLUSTER)/$(PROCESS)
 
+apply-all:
+	$(MAKE) apply PROCESS=osmosisd
+	$(MAKE) apply PROCESS=persistencecore
+	$(MAKE) apply PROCESS=rly-persistencecore-osmosisd
+
 delete:
-	kubectl delete -k $(CLUSTER)/$(PROCESS)
+	kubectl delete -k $(CLUSTER)/$(PROCESS) --force
+
+delete-all:
+	-@$(MAKE) delete PROCESS=osmosisd
+	-@$(MAKE) delete PROCESS=persistencecore
+	-@$(MAKE) delete PROCESS=rly-persistencecore-osmosisd

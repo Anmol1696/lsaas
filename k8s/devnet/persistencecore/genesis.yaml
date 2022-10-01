@@ -25,7 +25,7 @@ spec:
     spec:
       initContainers:
         - name: init-genesis
-          image: persistenceone/persistencecore:hackwasm
+          image: persistenceone/persistencecore:hackwasm-linux
           imagePullPolicy: Always
           resources:
             limits:
@@ -36,7 +36,7 @@ spec:
               memory: "100M"
       containers:
         - name: validator
-          image: persistenceone/persistencecore:hackwasm
+          image: persistenceone/persistencecore:hackwasm-linux
           imagePullPolicy: Always
           resources:
             limits:

@@ -1,9 +1,9 @@
 namespace: dev-hackwasm
 
 resources:
-  - ../../base/persistencecore
+  - ../../base/rly-persistencecore-osmosisd
 
 patchesStrategicMerge:
-  - genesis.yaml
+  - relayer.yaml
   ## Commenting out validator since for local setup no need for validator nodes
   #- validator.yaml

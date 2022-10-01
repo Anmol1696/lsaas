@@ -1,12 +1,13 @@
+namespace: dev-native
+
 resources:
-  - configmap.yaml
-  - genesis.yaml
+  - relayer.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
 
 configMapGenerator:
-  - name: test-addresses-osmosisd
+  - name: test-relayer-config
     files:
+      - configs/config.toml
       - configs/keys.json
-      - configs/validators.json

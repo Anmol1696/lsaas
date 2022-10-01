@@ -3,42 +3,42 @@
     {
       "name": "test1",
       "type": "local",
-      "address": "persistence1pss7nxeh3f9md2vuxku8q99femnwdjtcpe9ky9",
+      "address": "wasm19m6qkkcq8vzk070yxecld83uxjep7aj45fz469",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "Aw57xBfOrMyTep3ULDevI1R9/RpoNu3VvKM/w+D0hp7z"
+        "key": "AsgN+twckUbvTPVXHDNMSFK8Rx/rdPWV4LRka0882xTh"
       },
-      "mnemonic": "opinion knife other balcony surge more bamboo canoe romance ask argue teach anxiety adjust spike mystery wolf alone torch tail six decide wash alley"
+      "mnemonic": "copper half hub much immense ecology combine ensure shield sudden seat satoshi term game labor farm mountain civil will phone tired home brother great"
     },
     {
       "name": "test2",
       "type": "local",
-      "address": "persistence16e0p4vwufmsn0lucwsnfmjfx67ry84y47edfwq",
+      "address": "wasm13xhvtnxdn0prxkpazxrq6z6v8aexpelry8lmxk",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "AvRaiAePcKIgKibm9d7LO/2DLd1p7FaDeua+ilvf4p+A"
+        "key": "A21IOyhIn/+KKJc7IKWaXwrKCeJXPlSZ7kM7mVtaeM4g"
       },
-      "mnemonic": "logic help only text door wealth hurt always remove glory viable income agent olive trial female couch old offer crash menu zero pencil thrive"
+      "mnemonic": "aisle song keen provide cross claw prosper delay legend faculty debris lab stuff evolve truck satoshi kingdom kit submit staff cupboard reopen purchase entry"
     },
     {
       "name": "test3",
       "type": "local",
-      "address": "persistence1pn45c2jdwfwrwva0cknfdlnfst28ucpurteeqt",
+      "address": "wasm14yhuzwulnw3vtmys9luhvwwza83zceu6pzl0q8",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "A2eBCH+BVDXjVkJDZQE5RhKL3jN3apLqCTIjzXzWbMxJ"
+        "key": "AxYOTset1u9SXJmem1cpNJxBMEHKtW0z9lRW9N/nrFpB"
       },
-      "mnemonic": "middle weather hip ghost quick oxygen awful library broken chicken tackle animal crunch appear fee indoor fitness enough orphan trend tackle faint eyebrow all"
+      "mnemonic": "loyal limit fluid review trap nerve strong cross embark artist flash gospel vast panda feature suffer range cheap shy inherit fluid arctic punch sheriff"
     },
     {
       "name": "test4",
       "type": "local",
-      "address": "persistence1y3x3uaqnnlhulway8g5dvm4erpd5r4f0d29hn5",
+      "address": "wasm14wvahd3enlmnlram604mp3vn6ltae9qqwvmwd7",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "Agn5q1U2vLjdAhg4dcKuUKm3ZwdmrrFmVnlnqsqkXoIA"
+        "key": "A6GQUgujFXI3p3gGCPiXt4DZDGulFKfXXfJ6l0R/Nw9I"
       },
-      "mnemonic": "tag apart multiply food bleak isolate describe stand guide field session design cable combine excess shrug abuse pause course ketchup umbrella program labor ripple"
+      "mnemonic": "damp arctic peace forward review elbow camp roof flash lava enhance surprise school spy half rich stumble place hope gasp cargo annual creek parent"
     }
   ]
 }
