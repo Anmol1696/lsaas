@@ -77,17 +77,17 @@ spec:
               VAL_INDEX=${HOSTNAME##*-}
               echo "Validator Index: $VAL_INDEX"
               
-              persistenceCore init persistenceCore --chain-id $CHAIN_ID --home $HOME_DIR
-              jq -r ".genesis[0].mnemonic" /configs/validators.json | persistenceCore keys add $(jq -r ".genesis[0].name" /configs/validators.json) --recover --keyring-backend='test' --home $HOME_DIR
+              persistencecore init persistencecore --chain-id $CHAIN_ID --home $HOME_DIR
+              jq -r ".genesis[0].mnemonic" /configs/validators.json | persistencecore keys add $(jq -r ".genesis[0].name" /configs/validators.json) --recover --keyring-backend='test' --home $HOME_DIR
               
               # Provide genesis validator self deligations
-              persistenceCore add-genesis-account $(jq -r .genesis[$i].address /configs/validators.json) $COINS --keyring-backend='test' --home $HOME_DIR
+              persistencecore add-genesis-account $(jq -r .genesis[$i].address /configs/validators.json) $COINS --keyring-backend='test' --home $HOME_DIR
               
               # Give Validator addresses initial coins
               for ((i=0; i<$(jq -r '.validators | length' /configs/validators.json); i++))
               do
-                jq -r ".validators[$i].mnemonic" /configs/validators.json | persistenceCore keys add $(jq -r ".validators[$i].name" /configs/validators.json) --recover --keyring-backend='test' --home $HOME_DIR
-                persistenceCore add-genesis-account $(jq -r .validators[$i].address /configs/validators.json) $COINS --keyring-backend='test' --home $HOME_DIR
+                jq -r ".validators[$i].mnemonic" /configs/validators.json | persistencecore keys add $(jq -r ".validators[$i].name" /configs/validators.json) --recover --keyring-backend='test' --home $HOME_DIR
+                persistencecore add-genesis-account $(jq -r .validators[$i].address /configs/validators.json) $COINS --keyring-backend='test' --home $HOME_DIR
               done
               
               # Give test addresses initial coins
@@ -97,12 +97,12 @@ spec:
                 $CHAIN_BIN add-genesis-account $(jq -r .keys[$i].address /configs/keys.json) $COINS --keyring-backend='test' --home $HOME_DIR
               done
               
-              persistenceCore gentx $(jq -r ".genesis[0].name" /configs/validators.json) 5000000000uxprt --keyring-backend="test" --chain-id $CHAIN_ID --home $HOME_DIR
+              persistencecore gentx $(jq -r ".genesis[0].name" /configs/validators.json) 5000000000uxprt --keyring-backend="test" --chain-id $CHAIN_ID --home $HOME_DIR
               echo "Output of gentx"
               cat $HOME_DIR/config/gentx/*.json | jq
               
               echo "Running collect-gentxs"
-              persistenceCore collect-gentxs --home $HOME_DIR
+              persistencecore collect-gentxs --home $HOME_DIR
               
               sed -i 's#"tcp://127.0.0.1:26657"#"tcp://0.0.0.0:26657"#g' $HOME_DIR/config/config.toml
               sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/g' $HOME_DIR/config/config.toml
@@ -139,7 +139,7 @@ spec:
               echo "TRYING TO PRINT GENESIS JSON"
               cat $HOME_DIR/config/genesis.json | jq
               
-              persistenceCore tendermint show-node-id --home $HOME_DIR > $HOME_DIR/genesis-node-id.txt
+              persistencecore tendermint show-node-id --home $HOME_DIR > $HOME_DIR/genesis-node-id.txt
           resources:
             limits:
               cpu: "0.2"
@@ -168,7 +168,7 @@ spec:
             - bash
             - "-c"
             - |
-              persistenceCore start --home $HOME_DIR
+              persistencecore start --home $HOME_DIR
           resources:
             limits:
               cpu: "1"
@@ -181,6 +181,8 @@ spec:
               name: persistencecore
             - mountPath: /configs
               name: addresses
+            - mountPath: /wasm
+              name: wasm-contracts
         - name: exposer-app
           image: persistenceone/exposer:latest
           imagePullPolicy: Always
@@ -206,4 +208,7 @@ spec:
         - name: addresses
           configMap:
             name: test-addresses-persistencecore
+        - name: wasm-contracts
+            configMap:
+              name: wasm-contract-osmosisd
 ---

@@ -185,6 +185,8 @@ spec:
               name: osmosisd
             - mountPath: /configs
               name: addresses
+            - mountPath: /wasm
+              name: wasm-contracts
         - name: exposer-app
           image: persistenceone/exposer:latest
           imagePullPolicy: Always
@@ -210,4 +212,7 @@ spec:
         - name: addresses
           configMap:
             name: test-addresses-osmosisd
+        - name: wasm-contracts
+          configMap:
+            name: wasm-contract-osmosisd
 ---

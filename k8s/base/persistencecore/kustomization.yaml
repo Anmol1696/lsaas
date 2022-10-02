@@ -10,3 +10,7 @@ configMapGenerator:
     files:
       - configs/keys.json
       - configs/validators.json
+  - name: wasm-contract-persistencecore
+    files:
+      - configs/contract.sh
+      - ../../../target/wasm32-unknown-unknown/release/simple_ica_host.wasm

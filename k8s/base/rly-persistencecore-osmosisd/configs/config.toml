@@ -96,9 +96,9 @@ port = 3001
 
 [[chains]]
 id = 'osmosisd'
-rpc_addr = 'http://osmosisd-genesis.default.svc.cluster.local:26657'
-grpc_addr = 'http://osmosisd-genesis.default.svc.cluster.local:9090'
-websocket_addr = 'ws://osmosisd-genesis.default.svc.cluster.local:26657/websocket'
+rpc_addr = 'http://osmosisd-genesis.dev-hackwasm.svc.cluster.local:26657'
+grpc_addr = 'http://osmosisd-genesis.dev-hackwasm.svc.cluster.local:9090'
+websocket_addr = 'ws://osmosisd-genesis.dev-hackwasm.svc.cluster.local:26657/websocket'
 rpc_timeout = '10s'
 account_prefix = 'wasm'
 key_name = 'osmosis'
@@ -117,9 +117,9 @@ address_type = { derivation = 'cosmos' }
 
 [[chains]]
 id = 'persistencecore'
-rpc_addr = 'http://persistencecore-genesis.default.svc.cluster.local:26657'
-grpc_addr = 'http://persistencecore-genesis.default.svc.cluster.local:9090'
-websocket_addr = 'ws://persistencecore-genesis.default.svc.cluster.local:26657/websocket'
+rpc_addr = 'http://persistencecore-genesis.dev-hackwasm.svc.cluster.local:26657'
+grpc_addr = 'http://persistencecore-genesis.dev-hackwasm.svc.cluster.local:9090'
+websocket_addr = 'ws://persistencecore-genesis.dev-hackwasm.svc.cluster.local:26657/websocket'
 rpc_timeout = '10s'
 account_prefix = 'persistence'
 key_name = 'persistence'

@@ -27,31 +27,10 @@ spec:
         - name: init-genesis
           image: persistenceone/persistencecore:hackwasm-linux
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: "0.1"
-              memory: "100M"
-            requests:
-              cpu: "0.1"
-              memory: "100M"
       containers:
         - name: validator
           image: persistenceone/persistencecore:hackwasm-linux
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: "0.5"
-              memory: "1G"
-            requests:
-              cpu: "0.1"
-              memory: "500M"
         - name: exposer-app
           image: persistenceone/exposer:latest
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: "0.1"
-              memory: "100M"
-            requests:
-              cpu: "0.1"
-              memory: "100M"

@@ -3,10 +3,10 @@
     {
       "name": "val1",
       "type": "local",
-      "address": "persistence1renpqpyg95pfgajs06j4l55wls0z37psr42cc6",
+      "address": "persistence1qjtcxl86z0zua2egcsz4ncff2gzlcndzv9vm6q",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "AouKV8uN31oV3HsIS1/2Ow0A6462i8Evs3TmhIlAf07J"
+        "key": "AmPsa3aqarITEk9NM7T9guOi9VdyrHkqEdqVABLIcDew"
       },
       "mnemonic": "razor dog gown public private couple ecology paper flee connect local robot diamond stay rude join sound win ribbon soup kidney glass robot vehicle"
     }
@@ -15,30 +15,30 @@
     {
       "name": "val2",
       "type": "local",
-      "address": "persistence14762gazugxwj828r80ahkph63lckwq3xsx28j8",
+      "address": "persistence14fzpjrknygf9gadnwc2t4w8p7nlwzz2gc7qeu9",
       "pubkey": {
         "@type":"/cosmos.crypto.secp256k1.PubKey",
-        "key":"A1nQgtgPjbYIw9C8FamtlqonGKYEbipTFRrgum7ir+Uy"
+        "key":"Aiz04cAFkteJD+aHsLXmvzP9AiqtPHCKYxGlEoZO/2bs"
       },
       "mnemonic":"broccoli robot upon blush rabbit squeeze fruit still lady antique detect can spice clay magic monster zebra solution dry salute stay wet arena matrix"
     },
     {
       "name": "val3",
       "type": "local",
-      "address": "persistence148687xxdqk7pflg7cdefej2zw06lff6s2y0hw6",
+      "address": "persistence1gyfx8uazy87a958sws3fuf7dd7k9r4qff5lj29",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "A1WTqH4stDQhV+3ANmvRz7YAntFZMoIyuaYvFcQ2Q33/"
+        "key": "Au78YLEIsE6+vVozHPxv9rrmWgjJMgEDeenLJR8AqTaK"
       },
       "mnemonic": "tornado modify spring arm title double bulk other recall decide table fun caught buyer bring once knife sphere arctic text zoo swim visual patient"
     },
     {
       "name": "val4",
       "type": "local",
-      "address": "persistence1d5xgf5g5q5e9k5r9vj3p3nng64szww4pug8htv",
+      "address": "persistence137zrtwhzx44k2y8s9xrtxayl58y8c43eacrnr7",
       "pubkey": {
         "@type": "/cosmos.crypto.secp256k1.PubKey",
-        "key": "A1uFyhTclNzjFcZmW3ArPebae+sX9lmDbAqWSnFkkJLx"
+        "key": "ApQDfGidbhvkSiZvHPd2OKYHmtatWI76zPaRJNUM/Cnl"
       },
       "mnemonic": "warm marine rent lift siege tool artwork home curious film blade trophy flush angry exact athlete edge combine weasel hour marriage grocery lake famous"
     }
