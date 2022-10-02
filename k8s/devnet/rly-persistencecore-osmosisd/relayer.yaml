@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: relayer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: relayer
+      app.kubernetes.io/name: relayer
+  template:
+    metadata:
+      annotations:
+        quality: release
+        role: api-gateway
+        sla: high
+        tier: gateway
+      labels:
+        app.kubernetes.io/instance: relayer
+        app.kubernetes.io/type: relayer
+        app.kubernetes.io/name: relayer
+        app.kubernetes.io/version: '0.1'
+    spec:
+      imagePullSecrets:
+        - name: test-docker-creds
+      initContainers:
+        - name: wait-for-persistence
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "persistencecore-genesis.dev-hackwasm"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://persistencecore-genesis.dev-hackwasm.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: wait-for-osmosis
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "osmosisd-genesis.dev-hackwasm"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://osmosisd-genesis.dev-hackwasm.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: init-relayer
+          image: persistenceone/hermes:hackwasm-linux
+          imagePullPolicy: Always
+      containers:
+        - name: relayer
+          image: persistenceone/hermes:hackwasm-linux
+          imagePullPolicy: Always

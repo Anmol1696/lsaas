@@ -1,0 +1,44 @@
+{
+  "keys": [
+    {
+      "name": "test1",
+      "type": "local",
+      "address": "wasm19m6qkkcq8vzk070yxecld83uxjep7aj45fz469",
+      "pubkey": {
+        "@type": "/cosmos.crypto.secp256k1.PubKey",
+        "key": "AsgN+twckUbvTPVXHDNMSFK8Rx/rdPWV4LRka0882xTh"
+      },
+      "mnemonic": "copper half hub much immense ecology combine ensure shield sudden seat satoshi term game labor farm mountain civil will phone tired home brother great"
+    },
+    {
+      "name": "test2",
+      "type": "local",
+      "address": "wasm13xhvtnxdn0prxkpazxrq6z6v8aexpelry8lmxk",
+      "pubkey": {
+        "@type": "/cosmos.crypto.secp256k1.PubKey",
+        "key": "A21IOyhIn/+KKJc7IKWaXwrKCeJXPlSZ7kM7mVtaeM4g"
+      },
+      "mnemonic": "aisle song keen provide cross claw prosper delay legend faculty debris lab stuff evolve truck satoshi kingdom kit submit staff cupboard reopen purchase entry"
+    },
+    {
+      "name": "test3",
+      "type": "local",
+      "address": "wasm14yhuzwulnw3vtmys9luhvwwza83zceu6pzl0q8",
+      "pubkey": {
+        "@type": "/cosmos.crypto.secp256k1.PubKey",
+        "key": "AxYOTset1u9SXJmem1cpNJxBMEHKtW0z9lRW9N/nrFpB"
+      },
+      "mnemonic": "loyal limit fluid review trap nerve strong cross embark artist flash gospel vast panda feature suffer range cheap shy inherit fluid arctic punch sheriff"
+    },
+    {
+      "name": "test4",
+      "type": "local",
+      "address": "wasm14wvahd3enlmnlram604mp3vn6ltae9qqwvmwd7",
+      "pubkey": {
+        "@type": "/cosmos.crypto.secp256k1.PubKey",
+        "key": "A6GQUgujFXI3p3gGCPiXt4DZDGulFKfXXfJ6l0R/Nw9I"
+      },
+      "mnemonic": "damp arctic peace forward review elbow camp roof flash lava enhance surprise school spy half rich stumble place hope gasp cargo annual creek parent"
+    }
+  ]
+}

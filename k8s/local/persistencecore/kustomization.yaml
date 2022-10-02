@@ -1,0 +1,9 @@
+namespace: default
+
+resources:
+  - ../../base/persistencecore
+
+patchesStrategicMerge:
+  - genesis.yaml
+  ## Commenting out validator since for local setup no need for validator nodes
+  #- validator.yaml

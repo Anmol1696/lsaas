@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Ignore all wasm files
+**/*.wasm
+
 # Text file backups
 **/*.rs.bk
 

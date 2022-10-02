@@ -1,0 +1,7 @@
+FROM informalsystems/hermes:1.0.0
+
+USER root
+ENV PACKAGES jq bash
+RUN apt update && apt -y install $PACKAGES
+
+USER 1000
