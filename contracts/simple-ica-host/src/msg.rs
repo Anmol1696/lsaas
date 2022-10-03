@@ -1,4 +1,4 @@
-use cosmwasm_std::CosmosMsg;
+use cosmwasm_std::{Coin, CosmosMsg};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -6,6 +6,16 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
     pub cw1_code_id: u64,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum ExecuteMsg {
+    /// Liquid stake
+    LiquidStake {
+        delegator_address: String,
+        amount: Coin,
+    },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

@@ -62,7 +62,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: COINS
-              value: "100000000000000000uxprt"
+              value: "100000000000000000uxprt,100000000000000000mintedibc/uatom"
             - name: CHAIN_ID
               valueFrom:
                 configMapKeyRef:
@@ -181,8 +181,6 @@ spec:
               name: persistencecore
             - mountPath: /configs
               name: addresses
-            - mountPath: /wasm
-              name: wasm-contracts
         - name: exposer-app
           image: persistenceone/exposer:latest
           imagePullPolicy: Always
@@ -208,7 +206,4 @@ spec:
         - name: addresses
           configMap:
             name: test-addresses-persistencecore
-        - name: wasm-contracts
-            configMap:
-              name: wasm-contract-osmosisd
 ---
