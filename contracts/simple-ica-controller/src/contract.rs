@@ -48,6 +48,10 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             ica_channel_id,
             transfer_channel_id,
         } => execute_send_funds(deps, env, info, ica_channel_id, transfer_channel_id),
+        ExecuteMsg::SendFundsToAddr {
+            remote_addr,
+            transfer_channel_id,
+        } => execute_send_funds_to_addr(deps, env, info, remote_addr, transfer_channel_id),
     }
 }
 
@@ -192,6 +196,43 @@ pub fn execute_send_funds(
             ))
         }
     };
+
+    // construct a packet to send
+    let msg = IbcMsg::Transfer {
+        channel_id: transfer_channel_id,
+        to_address: remote_addr,
+        amount,
+        timeout: env.block.time.plus_seconds(PACKET_LIFETIME).into(),
+    };
+
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("action", "handle_send_funds");
+    Ok(res)
+}
+
+pub fn execute_send_funds_to_addr(
+    deps: DepsMut,
+    env: Env,
+    mut info: MessageInfo,
+    remote_addr: String,
+    transfer_channel_id: String,
+) -> StdResult<Response> {
+    // intentionally no auth check
+
+    // require some funds
+    let amount = match info.funds.pop() {
+        Some(coin) => coin,
+        None => {
+            return Err(StdError::generic_err(
+                "you must send the coins you wish to ibc transfer",
+            ))
+        }
+    };
+    // if there are any more coins, reject the message
+    if !info.funds.is_empty() {
+        return Err(StdError::generic_err("you can only ibc transfer one coin"));
+    }
 
     // construct a packet to send
     let msg = IbcMsg::Transfer {

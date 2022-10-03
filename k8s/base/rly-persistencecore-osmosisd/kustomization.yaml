@@ -1,7 +1,8 @@
 namespace: dev-native
 
 resources:
-  - relayer.yaml
+  #- relayer.yaml
+  - ts-relayer.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -11,3 +12,8 @@ configMapGenerator:
     files:
       - configs/config.toml
       - configs/keys.json
+  - name: test-ts-relayer-config
+    files:
+      - configs/ts-config.yaml
+      - configs/ts-app.yaml
+      - configs/ts-keys.json

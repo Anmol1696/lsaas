@@ -44,6 +44,14 @@ pub enum ExecuteMsg {
         /// It should connect to the same chain as the ica_channel_id does
         transfer_channel_id: String,
     },
+    SendFundsToAddr {
+        /// Send tokens to this addr on remote chain
+        remote_addr: String,
+        /// The channel to use for ibctransfer. This is bound to a different
+        /// port and handled by a different module.
+        /// It should connect to the same chain as the ica_channel_id does
+        transfer_channel_id: String,
+    },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

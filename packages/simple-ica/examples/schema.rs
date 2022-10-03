@@ -3,7 +3,9 @@ use std::fs::create_dir_all;
 
 use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
-use simple_ica::{BalancesResponse, DispatchResponse, PacketMsg, StdAck, WhoAmIResponse};
+use simple_ica::{
+    BalancesResponse, CostumMsgEncoder, DispatchResponse, PacketMsg, StdAck, WhoAmIResponse,
+};
 
 fn main() {
     let mut out_dir = current_dir().unwrap();
@@ -11,6 +13,7 @@ fn main() {
     create_dir_all(&out_dir).unwrap();
     remove_schemas(&out_dir).unwrap();
 
+    export_schema(&schema_for!(CostumMsgEncoder), &out_dir);
     export_schema(&schema_for!(PacketMsg), &out_dir);
     export_schema(&schema_for!(StdAck), &out_dir);
     export_schema(&schema_for!(DispatchResponse), &out_dir);

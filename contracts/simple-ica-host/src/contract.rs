@@ -1,20 +1,22 @@
 use cosmwasm_std::{
-    entry_point, from_slice, to_binary, to_vec, wasm_execute, BankMsg, Binary, ContractResult,
-    CosmosMsg, Deps, DepsMut, Empty, Env, Event, Ibc3ChannelOpenResponse, IbcBasicResponse,
-    IbcChannelCloseMsg, IbcChannelConnectMsg, IbcChannelOpenMsg, IbcChannelOpenResponse,
-    IbcPacketAckMsg, IbcPacketReceiveMsg, IbcPacketTimeoutMsg, IbcReceiveResponse, MessageInfo,
-    Order, QuerierWrapper, QueryRequest, QueryResponse, Reply, Response, StdError, StdResult,
-    SubMsg, SystemResult, WasmMsg,
+    entry_point, from_slice, to_binary, to_vec, wasm_execute, BankMsg, Binary, Coin,
+    ContractResult, CosmosMsg, Deps, DepsMut, Empty, Env, Event, Ibc3ChannelOpenResponse,
+    IbcBasicResponse, IbcChannelCloseMsg, IbcChannelConnectMsg, IbcChannelOpenMsg,
+    IbcChannelOpenResponse, IbcPacketAckMsg, IbcPacketReceiveMsg, IbcPacketTimeoutMsg,
+    IbcReceiveResponse, MessageInfo, Order, QuerierWrapper, QueryRequest, QueryResponse, Reply,
+    Response, StdError, StdResult, SubMsg, SystemResult, Uint128, WasmMsg,
 };
 use cw_utils::parse_reply_instantiate_data;
 use simple_ica::{
-    check_order, check_version, BalancesResponse, DispatchResponse, IbcQueryResponse, PacketMsg,
-    StdAck, WhoAmIResponse, IBC_APP_VERSION,
+    check_order, check_version, BalancesResponse, CostumMsgEncoder, DispatchResponse,
+    IbcQueryResponse, LiquidStakeMsg, PacketMsg, StdAck, WhoAmIResponse, IBC_APP_VERSION,
 };
 
 use crate::error::ContractError;
+use crate::msg::ExecuteMsg::LiquidStake;
 use crate::msg::{
-    AccountInfo, AccountResponse, InstantiateMsg, ListAccountsResponse, QueryMsg, ReflectExecuteMsg,
+    AccountInfo, AccountResponse, ExecuteMsg, InstantiateMsg, ListAccountsResponse, QueryMsg,
+    ReflectExecuteMsg,
 };
 use crate::state::{Config, ACCOUNTS, CONFIG, PENDING, RESULTS};
 
@@ -35,6 +37,42 @@ pub fn instantiate(
     CONFIG.save(deps.storage, &cfg)?;
 
     Ok(Response::new())
+}
+
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn execute(
+    deps: DepsMut,
+    env: Env,
+    info: MessageInfo,
+    msg: ExecuteMsg,
+) -> StdResult<Response> {
+    match msg {
+        ExecuteMsg::LiquidStake {
+            delegator_address,
+            amount,
+        } => execute_liquid_stake(deps, env, delegator_address, amount),
+    }
+}
+
+pub fn execute_liquid_stake(
+    deps: DepsMut,
+    env: Env,
+    delegator_address: String,
+    amount: Coin,
+) -> StdResult<Response> {
+    let a = Coin {
+        amount: Uint128::new(100000),
+        denom: "mintedibc/uatom".to_string(),
+    };
+    let msg = LiquidStakeMsg::WasmLiquidStake {
+            delegator_address: delegator_address,
+            amount: a,
+    };
+
+    //let c = CostumMsgEncoder::LiquidStake(msg);
+    let res = Response::new()
+        .add_attribute("action", "liquid-stake");
+    Ok(res)
 }
 
 #[entry_point]
@@ -215,6 +253,7 @@ pub fn ibc_packet_receive(
     match msg {
         PacketMsg::Dispatch { msgs, .. } => receive_dispatch(deps, caller, msgs),
         PacketMsg::IbcQuery { msgs, .. } => receive_query(deps.as_ref(), msgs),
+        //PacketMsg::IbcLiquidStake {msgs, ..} => receive_ls_txns(desps, msgs),
         PacketMsg::WhoAmI {} => receive_who_am_i(deps, caller),
         PacketMsg::Balances {} => receive_balances(deps, caller),
     }

@@ -1,5 +1,5 @@
 FROM golang:1.18-alpine3.16 AS go-builder
-ENV CODE_TAG_NAME 68eadafe58e07f543bcdd065a42001c66d6f061f
+ENV CODE_TAG_NAME 5d43100ee65070c72f734f0c1eb0ce8b8a8eebc8
 
 # Set up dependencies
 ENV PACKAGES curl make git libusb-dev libc-dev bash gcc linux-headers eudev-dev python3
