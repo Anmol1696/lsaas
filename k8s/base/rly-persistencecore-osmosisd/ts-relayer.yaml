@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ts-relayer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: ts-relayer
+      app.kubernetes.io/name: ts-relayer
+  template:
+    metadata:
+      annotations:
+        quality: release
+        role: api-gateway
+        sla: high
+        tier: gateway
+      labels:
+        app.kubernetes.io/instance: ts-relayer
+        app.kubernetes.io/type: ts-relayer
+        app.kubernetes.io/name: ts-relayer
+        app.kubernetes.io/version: '0.1'
+    spec:
+      imagePullSecrets:
+        - name: test-docker-creds
+      initContainers:
+        - name: wait-for-persistence
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "persistencecore-genesis.dev-hackwasm"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://persistencecore-genesis.dev-hackwasm.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: wait-for-osmosis
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "osmosisd-genesis.dev-hackwasm"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://osmosisd-genesis.dev-hackwasm.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: init-relayer
+          image: persistenceone/tsrelayer:hackwasm-linux
+          imagePullPolicy: Always
+          env:
+            - name: RELAYER_DIR
+              value: /root/.ibc-setup
+            - name: CONFIG_FILE
+              value: "ts-config.yaml"
+          command:
+            - bash
+            - "-c"
+            - |
+              mkdir -p $RELAYER_DIR
+              cp /configs/$CONFIG_FILE $RELAYER_DIR/registry.yaml
+              cp /configs/ts-app.yaml $RELAYER_DIR/app.yaml
+          volumeMounts:
+            - mountPath: /root
+              name: relayer
+            - mountPath: /configs
+              name: relayer-config
+      containers:
+        - name: relayer
+          image: persistenceone/tsrelayer:hackwasm-linux
+          imagePullPolicy: Always
+          env:
+            - name: CONFIG
+              value: "/configs/config.toml"
+          command:
+            - bash
+            - "-c"
+            - |
+              ibc-setup balances
+              ibc-setup ics20
+              ibc-relayer start
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: "0.5"
+              memory: 0.5Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /root
+              name: relayer
+            - mountPath: /configs
+              name: relayer-config
+      volumes:
+        - name: relayer
+          emptyDir: { }
+        - name: relayer-config
+          configMap:
+            name: test-ts-relayer-config
