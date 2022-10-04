@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ts-relayer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: ts-relayer
+      app.kubernetes.io/name: ts-relayer
+  template:
+    metadata:
+      annotations:
+        quality: release
+        role: api-gateway
+        sla: high
+        tier: gateway
+      labels:
+        app.kubernetes.io/instance: ts-relayer
+        app.kubernetes.io/type: ts-relayer
+        app.kubernetes.io/name: ts-relayer
+        app.kubernetes.io/version: '0.1'
+    spec:
+      imagePullSecrets:
+        - name: test-docker-creds
+      initContainers:
+        - name: wait-for-persistence
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "persistencecore-genesis.default"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://persistencecore-genesis.default.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: wait-for-osmosis
+          image: persistenceone/exposer
+          imagePullPolicy: Always
+          env:
+            - name: GENESIS_HOST
+              value: "osmosisd-genesis.default"
+            - name: GENESIS_PORT
+              value: "8081"
+          command:
+            - bash
+            - "-c"
+            - |
+              while [ $(curl -sw '%{http_code}' http://osmosisd-genesis.default.svc.cluster.local:8081/node_id -o /dev/null) -ne 200 ]; do
+                echo "Genesis validator does not seem to be ready. Waiting for it to start..."
+                sleep 10;
+              done
+              echo "Ready to start"
+              exit 0
+        - name: init-relayer
+          image: persistenceone/tsrelayer:hackwasm-linux
+      containers:
+        - name: relayer
+          image: persistenceone/tsrelayer:hackwasm-linux
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 0.5Gi
+            requests:
+              cpu: "0.5"
+              memory: 0.5Gi

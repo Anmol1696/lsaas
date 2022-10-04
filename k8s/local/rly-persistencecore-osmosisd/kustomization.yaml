@@ -5,5 +5,6 @@ resources:
 
 patchesStrategicMerge:
   - relayer.yaml
+  - ts-relayer.yaml
   ## Commenting out validator since for local setup no need for validator nodes
   #- validator.yaml
